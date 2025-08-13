@@ -289,29 +289,72 @@ class modAdvancedinventory extends DolibarrModules
 		//    1=>array('label'=>'My label', 'jobtype'=>'command', 'command'=>'', 'parameters'=>'param1, param2', 'comment'=>'Comment', 'frequency'=>1, 'unitfrequency'=>3600*24, 'status'=>0, 'test'=>'isModEnabled("advancedinventory")', 'priority'=>50)
 		// );
 
+
+		// Add here entries to declare new permissions
+		/* BEGIN MODULEBUILDER PERMISSIONS */
 		// Permissions provided by this module
 		$this->rights = array();
 		$r = 0;
-		// Add here entries to declare new permissions
-		/* BEGIN MODULEBUILDER PERMISSIONS */
-		/*
-		$o = 1;
-		$this->rights[$r][0] = $this->numero . sprintf("%02d", ($o * 10) + 1); // Permission id (must not be already used)
-		$this->rights[$r][1] = 'Read objects of Advancedinventory'; // Permission label
-		$this->rights[$r][4] = 'myobject';
-		$this->rights[$r][5] = 'read'; // In php code, permission will be checked by test if ($user->hasRight('advancedinventory', 'myobject', 'read'))
+
+// الصلاحيات الرئيسية للكتالوج
 		$r++;
-		$this->rights[$r][0] = $this->numero . sprintf("%02d", ($o * 10) + 2); // Permission id (must not be already used)
-		$this->rights[$r][1] = 'Create/Update objects of Advancedinventory'; // Permission label
-		$this->rights[$r][4] = 'myobject';
-		$this->rights[$r][5] = 'write'; // In php code, permission will be checked by test if ($user->hasRight('advancedinventory', 'myobject', 'write'))
+		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r);
+		$this->rights[$r][1] = 'View Item Catalog';
+		$this->rights[$r][4] = 'catalog';
+		$this->rights[$r][5] = 'read';
+
 		$r++;
-		$this->rights[$r][0] = $this->numero . sprintf("%02d", ($o * 10) + 3); // Permission id (must not be already used)
-		$this->rights[$r][1] = 'Delete objects of Advancedinventory'; // Permission label
-		$this->rights[$r][4] = 'myobject';
-		$this->rights[$r][5] = 'delete'; // In php code, permission will be checked by test if ($user->hasRight('advancedinventory', 'myobject', 'delete'))
+		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r);
+		$this->rights[$r][1] = 'Manage Item Catalog';
+		$this->rights[$r][4] = 'catalog';
+		$this->rights[$r][5] = 'write';
+
+// صلاحيات المخازن
 		$r++;
-		*/
+		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r);
+		$this->rights[$r][1] = 'View Warehouses';
+		$this->rights[$r][4] = 'warehouse';
+		$this->rights[$r][5] = 'read';
+
+		$r++;
+		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r);
+		$this->rights[$r][1] = 'Manage Warehouses';
+		$this->rights[$r][4] = 'warehouse';
+		$this->rights[$r][5] = 'write';
+
+// صلاحيات المعاملات
+		$r++;
+		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r);
+		$this->rights[$r][1] = 'View Inventory Transactions';
+		$this->rights[$r][4] = 'transaction';
+		$this->rights[$r][5] = 'read';
+
+		$r++;
+		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r);
+		$this->rights[$r][1] = 'Create Inventory Transactions';
+		$this->rights[$r][4] = 'transaction';
+		$this->rights[$r][5] = 'write';
+
+// صلاحيات الجرد
+		$r++;
+		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r);
+		$this->rights[$r][1] = 'Perform Inventory Count';
+		$this->rights[$r][4] = 'inventory';
+		$this->rights[$r][5] = 'count';
+
+// صلاحيات التقارير
+		$r++;
+		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r);
+		$this->rights[$r][1] = 'View Reports';
+		$this->rights[$r][4] = 'reports';
+		$this->rights[$r][5] = 'read';
+
+// صلاحيات الإعدادات
+		$r++;
+		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r);
+		$this->rights[$r][1] = 'Configure Module Settings';
+		$this->rights[$r][4] = 'settings';
+		$this->rights[$r][5] = 'admin';
 		/* END MODULEBUILDER PERMISSIONS */
 
 
@@ -336,6 +379,95 @@ class modAdvancedinventory extends DolibarrModules
 			'user' => 2, // 0=Menu for internal users, 1=external users, 2=both
 		);
 		/* END MODULEBUILDER TOPMENU */
+
+// القوائم الفرعية للموديول
+
+// قائمة الكتالوج
+		$this->menu[$r++] = array(
+			'fk_menu' => 'fk_mainmenu=advancedinventory',
+			'type' => 'left',
+			'titre' => 'ItemCatalog',
+			'prefix' => img_picto('', 'product', 'class="pictofixedwidth"'),
+			'mainmenu' => 'advancedinventory',
+			'leftmenu' => 'catalog',
+			'url' => '/advancedinventory/catalog/list.php',
+			'langs' => 'advancedinventory@advancedinventory',
+			'position' => 1100,
+			'enabled' => 'isModEnabled("advancedinventory")',
+			'perms' => '$user->hasRight("advancedinventory", "catalog", "read")',
+			'target' => '',
+			'user' => 2,
+		);
+
+// قائمة المخازن
+		$this->menu[$r++] = array(
+			'fk_menu' => 'fk_mainmenu=advancedinventory',
+			'type' => 'left',
+			'titre' => 'Warehouses',
+			'prefix' => img_picto('', 'stock', 'class="pictofixedwidth"'),
+			'mainmenu' => 'advancedinventory',
+			'leftmenu' => 'warehouses',
+			'url' => '/advancedinventory/warehouse/list.php',
+			'langs' => 'advancedinventory@advancedinventory',
+			'position' => 1200,
+			'enabled' => 'isModEnabled("advancedinventory")',
+			'perms' => '$user->hasRight("advancedinventory", "warehouse", "read")',
+			'target' => '',
+			'user' => 2,
+		);
+
+// قائمة المعاملات
+		$this->menu[$r++] = array(
+			'fk_menu' => 'fk_mainmenu=advancedinventory',
+			'type' => 'left',
+			'titre' => 'Transactions',
+			'prefix' => img_picto('', 'movement', 'class="pictofixedwidth"'),
+			'mainmenu' => 'advancedinventory',
+			'leftmenu' => 'transactions',
+			'url' => '/advancedinventory/transaction/list.php',
+			'langs' => 'advancedinventory@advancedinventory',
+			'position' => 1300,
+			'enabled' => 'isModEnabled("advancedinventory")',
+			'perms' => '$user->hasRight("advancedinventory", "transaction", "read")',
+			'target' => '',
+			'user' => 2,
+		);
+
+// قائمة التقارير
+		$this->menu[$r++] = array(
+			'fk_menu' => 'fk_mainmenu=advancedinventory',
+			'type' => 'left',
+			'titre' => 'Reports',
+			'prefix' => img_picto('', 'stats', 'class="pictofixedwidth"'),
+			'mainmenu' => 'advancedinventory',
+			'leftmenu' => 'reports',
+			'url' => '/advancedinventory/reports/index.php',
+			'langs' => 'advancedinventory@advancedinventory',
+			'position' => 1400,
+			'enabled' => 'isModEnabled("advancedinventory")',
+			'perms' => '$user->hasRight("advancedinventory", "reports", "read")',
+			'target' => '',
+			'user' => 2,
+		);
+
+// قائمة الإعدادات
+		$this->menu[$r++] = array(
+			'fk_menu' => 'fk_mainmenu=advancedinventory',
+			'type' => 'left',
+			'titre' => 'Settings',
+			'prefix' => img_picto('', 'setup', 'class="pictofixedwidth"'),
+			'mainmenu' => 'advancedinventory',
+			'leftmenu' => 'settings',
+			'url' => '/advancedinventory/admin/setup.php',
+			'langs' => 'advancedinventory@advancedinventory',
+			'position' => 1500,
+			'enabled' => 'isModEnabled("advancedinventory")',
+			'perms' => '$user->hasRight("advancedinventory", "settings", "admin")',
+			'target' => '',
+			'user' => 2,
+		);
+
+		/* BEGIN MODULEBUILDER LEFTMENU MYOBJECT *//* END MODULEBUILDER TOPMENU */
 
 		/* BEGIN MODULEBUILDER LEFTMENU MYOBJECT */
 		/*

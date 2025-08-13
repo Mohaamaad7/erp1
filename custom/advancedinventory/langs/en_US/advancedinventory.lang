@@ -1,42 +1,46 @@
-# Translation file
+# Dolibarr language file - Source file is en_US - advancedinventory
+Module500000Name = Advanced Inventory
+Module500000Desc = Advanced inventory management system with multi-warehouse support
 
-#
-# Generic
-#
+# Module label
+ModuleAdvancedinventoryName = Advanced Inventory
+AdvancedinventoryDescription = Advanced inventory management system with multi-warehouse support
 
-# Module label 'ModuleAdvancedinventoryName'
-ModuleAdvancedinventoryName = Advancedinventory
-# Module description 'ModuleAdvancedinventoryDesc'
-ModuleAdvancedinventoryDesc = Advancedinventory description
-
-#
 # Admin page
-#
-AdvancedinventorySetup = Advancedinventory setup
+AdvancedinventorySetup = Advanced Inventory Setup
+Settings = Module Settings
+AdvancedinventorySetupPage = Advanced Inventory configuration page
+
+# Menu entries
+ItemCatalog = Item Catalog
+Warehouses = Warehouses
+Transactions = Transactions
+Reports = Reports
 Settings = Settings
-AdvancedinventorySetupPage = Advancedinventory setup page
-NewSection=New section
-ADVANCEDINVENTORY_MYPARAM1 = My param 1
-ADVANCEDINVENTORY_MYPARAM1Tooltip = My param 1 tooltip
-ADVANCEDINVENTORY_MYPARAM2=My param 2
-ADVANCEDINVENTORY_MYPARAM2Tooltip=My param 2 tooltip
 
+# Permissions
+Permission500001 = View Item Catalog
+Permission500002 = Manage Item Catalog
+Permission500003 = View Warehouses
+Permission500004 = Manage Warehouses
+Permission500005 = View Inventory Transactions
+Permission500006 = Create Inventory Transactions
+Permission500007 = Perform Inventory Count
+Permission500008 = View Reports
+Permission500009 = Configure Module Settings
 
-#
-# About page
-#
-About = About
-AdvancedinventoryAbout = About Advancedinventory
-AdvancedinventoryAboutPage = Advancedinventory about page
+# Common labels
+NewItem = New Item
+ItemList = Item List
+WarehouseList = Warehouse List
+NewWarehouse = New Warehouse
+TransactionList = Transaction List
+NewTransaction = New Transaction
+InventoryReport = Inventory Report
+StockMovements = Stock Movements
 
-#
-# Sample page
-#
-AdvancedinventoryArea = Home Advancedinventory
-MyPageName = My page name
-
-#
-# Sample widget
-#
-MyWidget = My widget
-MyWidgetDescription = My widget description
+# Messages
+NoRecordsFound = No records found
+RecordSaved = Record saved successfully
+RecordDeleted = Record deleted successfully
+ConfirmDelete = Are you sure you want to delete this record?

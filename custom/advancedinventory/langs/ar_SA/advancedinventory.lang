@@ -1,0 +1,46 @@
+# Dolibarr language file - Source file is ar_SA - advancedinventory
+Module500000Name = المخزون المتقدم
+Module500000Desc = نظام إدارة مخزون متقدم مع دعم المخازن المتعددة
+
+# Module label
+ModuleAdvancedinventoryName = المخزون المتقدم
+AdvancedinventoryDescription = نظام إدارة مخزون متقدم مع دعم المخازن المتعددة
+
+# Admin page
+AdvancedinventorySetup = إعدادات المخزون المتقدم
+Settings = إعدادات الموديول
+AdvancedinventorySetupPage = صفحة إعدادات المخزون المتقدم
+
+# Menu entries
+ItemCatalog = كتالوج الأصناف
+Warehouses = المخازن
+Transactions = المعاملات
+Reports = التقارير
+Settings = الإعدادات
+
+# Permissions
+Permission500001 = عرض كتالوج الأصناف
+Permission500002 = إدارة كتالوج الأصناف
+Permission500003 = عرض المخازن
+Permission500004 = إدارة المخازن
+Permission500005 = عرض معاملات المخزون
+Permission500006 = إنشاء معاملات المخزون
+Permission500007 = إجراء جرد المخزون
+Permission500008 = عرض التقارير
+Permission500009 = تكوين إعدادات الموديول
+
+# Common labels
+NewItem = صنف جديد
+ItemList = قائمة الأصناف
+WarehouseList = قائمة المخازن
+NewWarehouse = مخزن جديد
+TransactionList = قائمة المعاملات
+NewTransaction = معاملة جديدة
+InventoryReport = تقرير المخزون
+StockMovements = حركات المخزون
+
+# Messages
+NoRecordsFound = لا توجد سجلات
+RecordSaved = تم حفظ السجل بنجاح
+RecordDeleted = تم حذف السجل بنجاح
+ConfirmDelete = هل أنت متأكد من حذف هذا السجل؟
