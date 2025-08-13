@@ -1,0 +1,42 @@
+# Translation file
+
+#
+# Generic
+#
+
+# Module label 'ModuleAdvancedinventoryName'
+ModuleAdvancedinventoryName = Advancedinventory
+# Module description 'ModuleAdvancedinventoryDesc'
+ModuleAdvancedinventoryDesc = Advancedinventory description
+
+#
+# Admin page
+#
+AdvancedinventorySetup = Advancedinventory setup
+Settings = Settings
+AdvancedinventorySetupPage = Advancedinventory setup page
+NewSection=New section
+ADVANCEDINVENTORY_MYPARAM1 = My param 1
+ADVANCEDINVENTORY_MYPARAM1Tooltip = My param 1 tooltip
+ADVANCEDINVENTORY_MYPARAM2=My param 2
+ADVANCEDINVENTORY_MYPARAM2Tooltip=My param 2 tooltip
+
+
+#
+# About page
+#
+About = About
+AdvancedinventoryAbout = About Advancedinventory
+AdvancedinventoryAboutPage = Advancedinventory about page
+
+#
+# Sample page
+#
+AdvancedinventoryArea = Home Advancedinventory
+MyPageName = My page name
+
+#
+# Sample widget
+#
+MyWidget = My widget
+MyWidgetDescription = My widget description

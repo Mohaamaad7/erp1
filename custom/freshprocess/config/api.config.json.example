@@ -1,0 +1,13 @@
+{
+    "api": "https://data.freshprocess.eu/v1/projects",
+    "keys": [
+        {
+            "name": "Print",
+            "public": "[PUBLIC_KEY]",
+            "private": "[PRIVATE_KEY]",
+            "ref_client": [
+                "[CATEGORY]"
+            ]
+        }
+    ]
+}

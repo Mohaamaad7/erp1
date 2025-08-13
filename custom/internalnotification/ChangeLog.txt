@@ -1,0 +1,8 @@
+------------------------------------------------------
+2.2.0 compared to 2.1.2
+------------------------------------------------------
+ADD : Notification to commercial when creating a thirdparty
+FIX : Blank page when modifying or deleting a thirdparty while inform commercial enabled
+FIX : Informations concerning commercials on all events concerning the events
+FIX : Description on all events concerning the events except description on delete
+FIX : Set-up not saved when not checking the checkbox to inform the commercial

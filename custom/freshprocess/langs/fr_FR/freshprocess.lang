@@ -1,0 +1,11 @@
+FreshProcessCronUrl=Url de la Crontab
+FreshProcessApiUrl=Url de l'API
+FreshProcessKeyName=Nom de la clé
+FreshProcessPublicKey=Clé publique
+FreshProcessPrivateKey=Clé privée
+FreshProcessRefClient=Références
+FreshProcessFilled=REMPLI
+FreshProcessEmpty=VIDE
+FreshProcessProps=Propriétés
+FreshProcessValues=Valeurs
+FreshProcessKey=Clé
