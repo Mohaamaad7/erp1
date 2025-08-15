@@ -27,7 +27,7 @@
  *  \brief      Description and activation file for module Advancedinventory
  */
 include_once DOL_DOCUMENT_ROOT.'/core/modules/DolibarrModules.class.php';
-
+include_once DOL_DOCUMENT_ROOT.'/core/class/extrafields.class.php';
 
 /**
  *  Description and activation class for module Advancedinventory
@@ -602,24 +602,311 @@ class modAdvancedinventory extends DolibarrModules
 		global $conf, $langs;
 
 		// Create tables of module at module activation
-		//$result = $this->_load_tables('/install/mysql/', 'advancedinventory');
 		$result = $this->_load_tables('/advancedinventory/sql/');
 		if ($result < 0) {
-			return -1; // Do not activate module if error 'not allowed' returned when loading module SQL queries (the _load_table run sql with run_sql with the error allowed parameter set to 'default')
+			return -1;
 		}
 
 		// Create extrafields during init
-		//include_once DOL_DOCUMENT_ROOT.'/core/class/extrafields.class.php';
-		//$extrafields = new ExtraFields($this->db);
-		//$result0=$extrafields->addExtraField('advancedinventory_separator1', "Separator 1", 'separator', 1,  0, 'thirdparty',   0, 0, '', array('options'=>array(1=>1)), 1, '', 1, 0, '', '', 'advancedinventory@advancedinventory', 'isModEnabled("advancedinventory")');
-		//$result1=$extrafields->addExtraField('advancedinventory_myattr1', "New Attr 1 label", 'boolean', 1,  3, 'thirdparty',   0, 0, '', '', 1, '', -1, 0, '', '', 'advancedinventory@advancedinventory', 'isModEnabled("advancedinventory")');
-		//$result2=$extrafields->addExtraField('advancedinventory_myattr2', "New Attr 2 label", 'varchar', 1, 10, 'project',      0, 0, '', '', 1, '', -1, 0, '', '', 'advancedinventory@advancedinventory', 'isModEnabled("advancedinventory")');
-		//$result3=$extrafields->addExtraField('advancedinventory_myattr3', "New Attr 3 label", 'varchar', 1, 10, 'bank_account', 0, 0, '', '', 1, '', -1, 0, '', '', 'advancedinventory@advancedinventory', 'isModEnabled("advancedinventory")');
-		//$result4=$extrafields->addExtraField('advancedinventory_myattr4', "New Attr 4 label", 'select',  1,  3, 'thirdparty',   0, 1, '', array('options'=>array('code1'=>'Val1','code2'=>'Val2','code3'=>'Val3')), 1,'', -1, 0, '', '', 'advancedinventory@advancedinventory', 'isModEnabled("advancedinventory")');
-		//$result5=$extrafields->addExtraField('advancedinventory_myattr5', "New Attr 5 label", 'text',    1, 10, 'user',         0, 0, '', '', 1, '', -1, 0, '', '', 'advancedinventory@advancedinventory', 'isModEnabled("advancedinventory")');
+		include_once DOL_DOCUMENT_ROOT.'/core/class/extrafields.class.php';
+		$extrafields = new ExtraFields($this->db);
 
-		// Permissions
-		$this->remove($options);
+		// Add separator for Advanced Inventory fields
+		$extrafields->addExtraField(
+			'advinv_separator_main',
+			"AdvancedInventoryFields",  // سيترجم من ملف اللغة
+			'separator',
+			90,  // Position before our fields
+			'',
+			'product',
+			0, 0, '',
+			array('csslist' => 'background: #2c3e50; color: white; font-weight: bold;'),
+			1, '', 1, 0, '', '',
+			'advancedinventory@advancedinventory',
+			'isModEnabled("advancedinventory")'
+		);
+
+// الكود الذكي
+		$result1 = $extrafields->addExtraField(
+			'advinv_smart_code',
+			"SmartCode",
+			'varchar',
+			100,
+			20,
+			'product',
+			0, 0, '',
+			array(
+				'help' => 'SmartCodeHelp',
+				'csslist' => 'background-color: #e8f4f8;',  // لون خلفية مميز
+				'css' => 'background-color: #e8f4f8;'
+			),
+			1, '', 1, 0, '', '',
+			'advancedinventory@advancedinventory',
+			'isModEnabled("advancedinventory")'
+		);
+
+// نقطة إعادة الطلب
+		$result2 = $extrafields->addExtraField(
+			'advinv_reorder_point',
+			"ReorderPoint",
+			'double',
+			110,
+			'24,8',
+			'product',
+			0, 0, '0',
+			array(
+				'help' => 'ReorderPointHelp',
+				'csslist' => 'background-color: #e8f4f8;',
+				'css' => 'background-color: #e8f4f8;'
+			),
+			1, '', 1, 0, '', '',
+			'advancedinventory@advancedinventory',
+			'isModEnabled("advancedinventory")'
+		);
+
+// الحد الأدنى للمخزون
+		$result3 = $extrafields->addExtraField(
+			'advinv_min_stock',
+			"MinimumStock",
+			'double',
+			120,
+			'24,8',
+			'product',
+			0, 0, '0',
+			array(
+				'help' => 'MinimumStockHelp',
+				'csslist' => 'background-color: #e8f4f8;',
+				'css' => 'background-color: #e8f4f8;'
+			),
+			1, '', 1, 0, '', '',
+			'advancedinventory@advancedinventory',
+			'isModEnabled("advancedinventory")'
+		);
+
+// الحد الأقصى للمخزون
+		$result4 = $extrafields->addExtraField(
+			'advinv_max_stock',
+			"MaximumStock",
+			'double',
+			130,
+			'24,8',
+			'product',
+			0, 0, '0',
+			array(
+				'help' => 'MaximumStockHelp',
+				'csslist' => 'background-color: #e8f4f8;',
+				'css' => 'background-color: #e8f4f8;'
+			),
+			1, '', 1, 0, '', '',
+			'advancedinventory@advancedinventory',
+			'isModEnabled("advancedinventory")'
+		);
+
+// تتبع الدفعات
+		$result5 = $extrafields->addExtraField(
+			'advinv_batch_tracking',
+			"BatchTracking",
+			'boolean',
+			140,
+			'',
+			'product',
+			0, 0, '0',
+			array(
+				'help' => 'BatchTrackingHelp',
+				'csslist' => 'background-color: #e8f4f8;',
+				'css' => 'background-color: #e8f4f8;'
+			),
+			1, '', 1, 0, '', '',
+			'advancedinventory@advancedinventory',
+			'isModEnabled("advancedinventory")'
+		);
+
+// مدة الصلاحية بالأيام
+		$result6 = $extrafields->addExtraField(
+			'advinv_shelf_life',
+			"ShelfLifeDays",
+			'int',
+			150,
+			10,
+			'product',
+			0, 0, '',
+			array(
+				'help' => 'ShelfLifeHelp',
+				'csslist' => 'background-color: #e8f4f8;',
+				'css' => 'background-color: #e8f4f8;'
+			),
+			1, '', 1, 0, '', '',
+			'advancedinventory@advancedinventory',
+			'isModEnabled("advancedinventory")'
+		);
+
+		$result6 = $extrafields->addExtraField(
+			'advinv_lead_time',
+			"LeadTime",
+			'int',
+			150,
+			10,
+			'product',
+			0, 0, '',
+			array(
+				'help' => 'LeadTimeHelp',
+				'csslist' => 'background-color: #e8f4f8;',
+				'css' => 'background-color: #e8f4f8;'
+			),
+			1, '', 1, 0, '', '',
+			'advancedinventory@advancedinventory',
+			'isModEnabled("advancedinventory")'
+		);
+
+// Add closing separator
+		$extrafields->addExtraField(
+			'advinv_separator_end',
+			"",  // فاصل فارغ للإغلاق
+			'separator',
+			160,
+			'',
+			'product',
+			0, 0, '',
+			array('csslist' => 'height: 2px; background: #2c3e50;'),
+			1, '', 1, 0, '', '',
+			'advancedinventory@advancedinventory',
+			'isModEnabled("advancedinventory")'
+		);
+
+// ========== STOCK MOVEMENT EXTRAFIELDS ==========
+
+// Add separator for Advanced Inventory movement fields
+		$extrafields->addExtraField(
+			'advinv_mov_separator_main',
+			"AdvancedInventoryMovementFields",
+			'separator',
+			190,
+			'',
+			'stock_mouvement',
+			0, 0, '',
+			array('csslist' => 'background: #27ae60; color: white; font-weight: bold;'),
+			1, '', 1, 0, '', '',
+			'advancedinventory@advancedinventory',
+			'isModEnabled("advancedinventory")'
+		);
+
+// رقم التحويل
+		$result7 = $extrafields->addExtraField(
+			'advinv_transfer_ref',
+			"TransferReference",
+			'varchar',
+			200,
+			128,
+			'stock_mouvement',
+			0, 0, '',
+			array(
+				'help' => 'TransferReferenceHelp',
+				'csslist' => 'background-color: #e8f8f5;',
+				'css' => 'background-color: #e8f8f5;'
+			),
+			1, '', 1, 0, '', '',
+			'advancedinventory@advancedinventory',
+			'isModEnabled("advancedinventory")'
+		);
+
+// المخزن الوجهة (للتحويلات)
+		$result8 = $extrafields->addExtraField(
+			'advinv_warehouse_to',
+			"DestinationWarehouse",
+			'sellist',
+			210,
+			'',
+			'stock_mouvement',
+			0, 0, '',
+			array(
+				'options' => array('advancedinventory_warehouse:label:rowid::status=1' => null),
+				'help' => 'DestinationWarehouseHelp',
+				'csslist' => 'background-color: #e8f8f5;',
+				'css' => 'background-color: #e8f8f5;'
+			),
+			1, '', 1, 0, '', '',
+			'advancedinventory@advancedinventory',
+			'isModEnabled("advancedinventory")'
+		);
+
+// حالة الموافقة
+		$result9 = $extrafields->addExtraField(
+			'advinv_approval_status',
+			"ApprovalStatus",
+			'select',
+			220,
+			'',
+			'stock_mouvement',
+			0, 0, '0',
+			array(
+				'options' => array(
+					'0' => 'Pending',
+					'1' => 'Approved',
+					'2' => 'Rejected'
+				),
+				'help' => 'ApprovalStatusHelp',
+				'csslist' => 'background-color: #e8f8f5;',
+				'css' => 'background-color: #e8f8f5;'
+			),
+			1, '', 1, 0, '', '',
+			'advancedinventory@advancedinventory',
+			'isModEnabled("advancedinventory")'
+		);
+
+// المستخدم الموافق
+		$result10 = $extrafields->addExtraField(
+			'advinv_approved_by',
+			"ApprovedBy",
+			'link',
+			230,
+			'',
+			'stock_mouvement',
+			0, 0, '',
+			array(
+				'options' => array('User:user/class/user.class.php' => null),
+				'help' => 'ApprovedByHelp',
+				'csslist' => 'background-color: #e8f8f5;',
+				'css' => 'background-color: #e8f8f5;'
+			),
+			1, '', 1, 0, '', '',
+			'advancedinventory@advancedinventory',
+			'isModEnabled("advancedinventory")'
+		);
+
+// تاريخ الموافقة
+		$result11 = $extrafields->addExtraField(
+			'advinv_approval_date',
+			"ApprovalDate",
+			'datetime',
+			240,
+			'',
+			'stock_mouvement',
+			0, 0, '',
+			array(
+				'help' => 'ApprovalDateHelp',
+				'csslist' => 'background-color: #e8f8f5;',
+				'css' => 'background-color: #e8f8f5;'
+			),
+			1, '', 1, 0, '', '',
+			'advancedinventory@advancedinventory',
+			'isModEnabled("advancedinventory")'
+		);
+
+// Add closing separator
+		$extrafields->addExtraField(
+			'advinv_mov_separator_end',
+			"",
+			'separator',
+			250,
+			'',
+			'stock_mouvement',
+			0, 0, '',
+			array('csslist' => 'height: 2px; background: #27ae60;'),
+			1, '', 1, 0, '', '',
+			'advancedinventory@advancedinventory',
+			'isModEnabled("advancedinventory")'
+		);
+
 
 		$sql = array();
 
@@ -665,9 +952,75 @@ class modAdvancedinventory extends DolibarrModules
 	 *	@param	string		$options	Options when enabling module ('', 'noboxes')
 	 *	@return	int<-1,1>				1 if OK, <=0 if KO
 	 */
+	/**
+	 * Function called when module is disabled.
+	 * Remove from database constants, boxes and permissions from Dolibarr database.
+	 * Data directories are not deleted
+	 *
+	 * @param	string		$options	Options when disabling module ('', 'noboxes', 'cleanuninstall')
+	 * @return	int						1 if OK, 0 if KO
+	 */
 	public function remove($options = '')
 	{
+		global $conf, $langs, $user;
+
 		$sql = array();
+
+		// Check if clean uninstall is requested (admin only)
+		if ($options === 'cleanuninstall' && !empty($user->admin)) {
+
+			// WARNING: This will delete ALL module data permanently
+			include_once DOL_DOCUMENT_ROOT.'/core/class/extrafields.class.php';
+			$extrafields = new ExtraFields($this->db);
+
+			// Delete extrafields definitions (structure)
+			// Product extrafields
+			$extrafields->delete('advinv_smart_code', 'product');
+			$extrafields->delete('advinv_reorder_point', 'product');
+			$extrafields->delete('advinv_min_stock', 'product');
+			$extrafields->delete('advinv_max_stock', 'product');
+			$extrafields->delete('advinv_batch_tracking', 'product');
+			$extrafields->delete('advinv_shelf_life', 'product');
+
+			// Stock Movement extrafields
+			$extrafields->delete('advinv_transfer_ref', 'stock_mouvement');
+			$extrafields->delete('advinv_warehouse_to', 'stock_mouvement');
+			$extrafields->delete('advinv_approval_status', 'stock_mouvement');
+			$extrafields->delete('advinv_approved_by', 'stock_mouvement');
+			$extrafields->delete('advinv_approval_date', 'stock_mouvement');
+
+			// Drop our custom tables (with their data)
+			$sql[] = "DROP TABLE IF EXISTS ".$this->db->prefix()."advancedinventory_warehouse";
+			$sql[] = "DROP TABLE IF EXISTS ".$this->db->prefix()."advancedinventory_supplier_item";
+			$sql[] = "DROP TABLE IF EXISTS ".$this->db->prefix()."advancedinventory_stock_location";
+
+			// Remove actual data columns from extrafields tables
+			// Note: These columns might not exist if extrafields were never used
+			$sql[] = "ALTER TABLE ".$this->db->prefix()."product_extrafields
+                  DROP COLUMN IF EXISTS advinv_smart_code,
+                  DROP COLUMN IF EXISTS advinv_reorder_point,
+                  DROP COLUMN IF EXISTS advinv_min_stock,
+                  DROP COLUMN IF EXISTS advinv_max_stock,
+                  DROP COLUMN IF EXISTS advinv_batch_tracking,
+                  DROP COLUMN IF EXISTS advinv_shelf_life";
+
+			$sql[] = "ALTER TABLE ".$this->db->prefix()."stock_mouvement_extrafields
+                  DROP COLUMN IF EXISTS advinv_transfer_ref,
+                  DROP COLUMN IF EXISTS advinv_warehouse_to,
+                  DROP COLUMN IF EXISTS advinv_approval_status,
+                  DROP COLUMN IF EXISTS advinv_approved_by,
+                  DROP COLUMN IF EXISTS advinv_approval_date";
+
+			// Log this action
+			dol_syslog(get_class($this)."::remove Clean uninstall performed by user ".$user->login, LOG_WARNING);
+		}
+		// Normal disable - keep everything safe
+		else {
+			// Don't delete anything, just disable the module
+			// Data remains safe for future use
+			dol_syslog(get_class($this)."::remove Module disabled, data preserved", LOG_INFO);
+		}
+
 		return $this->_remove($sql, $options);
 	}
 }
