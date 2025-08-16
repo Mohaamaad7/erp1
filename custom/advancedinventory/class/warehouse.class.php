@@ -199,21 +199,23 @@ class AdvancedInventoryWarehouse extends CommonObject
 	{
 		global $conf, $db;
 
-		$sql = "SELECT MAX(CAST(SUBSTRING(ref FROM 3) AS UNSIGNED)) as max";
-		$sql .= " FROM ".MAIN_DB_PREFIX.$this->table_element;
+		$sql = "SELECT ref FROM ".MAIN_DB_PREFIX.$this->table_element;
 		$sql .= " WHERE ref LIKE 'WH%'";
-		$sql .= " AND entity = ".$conf->entity;
+		$sql .= " ORDER BY ref DESC LIMIT 1";
 
 		$resql = $db->query($sql);
 		if ($resql) {
-			$obj = $db->fetch_object($resql);
-			$max = intval($obj->max);
-			return "WH".str_pad($max + 1, 5, "0", STR_PAD_LEFT);
-		} else {
-			return "WH00001";
-		}
-	}
+			$num_rows = $db->num_rows($resql);
 
+			if ($num_rows > 0) {
+				$obj = $db->fetch_object($resql);
+				$number = intval(substr($obj->ref, 2)) + 1;
+				return "WH" . str_pad($number, 5, "0", STR_PAD_LEFT);
+			}
+		}
+
+		return "WH00001";
+	}
 	/**
 	 * Get parent warehouse
 	 *
