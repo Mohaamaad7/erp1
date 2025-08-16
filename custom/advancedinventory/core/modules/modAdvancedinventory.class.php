@@ -120,11 +120,15 @@ class modAdvancedinventory extends DolibarrModules
 			// Set here all hooks context managed by module. To find available hook context, make a "grep -r '>initHooks(' *" on source code. You can also set hook context to 'all'
 			/* BEGIN MODULEBUILDER HOOKSCONTEXTS */
 			'hooks' => array(
-				//   'data' => array(
-				//       'hookcontext1',
-				//       'hookcontext2',
-				//   ),
-				//   'entity' => '0',
+				'data' => array(
+					'productcard',
+					'stockcard',
+					'stocktransfer',
+					'ordersuppliercard',
+					'invoicesuppliercard',
+					'all'
+				),
+				'entity' => '0',
 			),
 			/* END MODULEBUILDER HOOKSCONTEXTS */
 			// Set this to 1 if features of module are opened to external users
@@ -192,7 +196,11 @@ class modAdvancedinventory extends DolibarrModules
 		/* END MODULEBUILDER TABS */
 		// Example:
 		// To add a new tab identified by code tabname1
-		// $this->tabs[] = array('data' => 'objecttype:+tabname1:Title1:mylangfile@advancedinventory:$user->hasRight(\'advancedinventory\', \'read\'):/advancedinventory/mynewtab1.php?id=__ID__');
+		$this->tabs = array(
+			array('data' => 'product:+stockbylocation:StockByLocation:advancedinventory@advancedinventory:1:/custom/advancedinventory/product/stock_by_location.php?id=__ID__'),
+			array('data' => 'product:+multiplesuppliers:MultipleSuppliers:advancedinventory@advancedinventory:1:/custom/advancedinventory/product/suppliers.php?id=__ID__')
+		);
+
 		// To add another new tab identified by code tabname2. Label will be result of calling all substitution functions on 'Title2' key.
 		// $this->tabs[] = array('data' => 'objecttype:+tabname2:SUBSTITUTION_Title2:mylangfile@advancedinventory:$user->hasRight(\'othermodule\', \'read\'):/advancedinventory/mynewtab2.php?id=__ID__',
 		// To remove an existing tab identified by code tabname
