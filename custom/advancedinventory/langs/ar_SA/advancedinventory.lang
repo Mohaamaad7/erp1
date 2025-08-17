@@ -150,3 +150,68 @@ Day = يوم
 Days = أيام
 Weeks = أسابيع
 Months = أشهر
+
+# Catalog Management
+AdvancedItemCatalog = كتالوج الأصناف المتقدم
+CatalogStatistics = إحصائيات الكتالوج
+TotalProducts = إجمالي المنتجات
+ProductsWithSmartCode = منتجات بكود ذكي
+ProductsWithSuppliers = منتجات لها موردين
+ProductsBelowReorderPoint = منتجات تحت نقطة الطلب
+TotalSuppliers = إجمالي الموردين
+QuickActions = إجراءات سريعة
+ViewList = عرض القائمة
+NewProduct = منتج جديد
+
+# Smart Code Management
+SmartCode = الكود الذكي
+GenerateSmartCodes = توليد أكواد ذكية
+SmartCodeGenerated = تم توليد الكود الذكي
+SmartCodesGenerated = تم توليد %s أكواد ذكية
+ErrorGeneratingSmartCode = خطأ في توليد الكود الذكي
+NotSet = غير محدد
+
+# Reorder Point Management
+ReorderPoint = نقطة إعادة الطلب
+CalculateReorderPoints = حساب نقاط إعادة الطلب
+ReorderPointUpdated = تم تحديث نقطة إعادة الطلب
+ReorderPointsCalculated = تم حساب %s نقاط إعادة طلب
+ReorderPointCalculated = تم حساب نقطة إعادة الطلب
+ReorderPointCalculationDetails = تفاصيل حساب نقطة إعادة الطلب
+ErrorUpdatingReorderPoint = خطأ في تحديث نقطة إعادة الطلب
+BelowReorderPoint = تحت نقطة الطلب
+BelowReorder = تحت نقطة الطلب
+InsufficientDataForCalculation = بيانات غير كافية للحساب
+
+# Stock Management
+CurrentStock = المخزون الحالي
+MinimumStock = الحد الأدنى
+MaximumStock = الحد الأقصى
+MinMaxStockUpdated = تم تحديث الحد الأدنى والأقصى
+ErrorUpdatingMinMaxStock = خطأ في تحديث الحد الأدنى والأقصى
+MinStockCannotBeGreaterThanMax = الحد الأدنى لا يمكن أن يكون أكبر من الأقصى
+
+# Search and Filters
+SearchByPartNumber = البحث برقم القطعة
+PartNumberRequired = رقم القطعة مطلوب
+PartNumberNotFound = رقم القطعة غير موجود
+ProductNotFound = المنتج غير موجود
+SupplierRequired = المورد مطلوب
+NoSupplierConfigured = لا يوجد مورد مكون
+
+# Supplier Management
+DefaultSupplierSet = تم تعيين المورد الافتراضي
+ErrorSettingDefaultSupplier = خطأ في تعيين المورد الافتراضي
+SupplierItemNotFound = عنصر المورد غير موجود
+
+# General
+InvalidValue = قيمة غير صحيحة
+InvalidAction = إجراء غير صحيح
+NotEnoughPermissions = صلاحيات غير كافية
+NoRecordsFound = لا توجد سجلات
+
+# Status Labels
+Sale = للبيع
+Buy = للشراء
+OnSell = معروض للبيع
+OnBuy = متاح للشراء

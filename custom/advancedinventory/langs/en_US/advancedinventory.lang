@@ -149,3 +149,68 @@ Day = Day
 Days = Days
 Weeks = Weeks
 Months = Months
+
+# Catalog Management
+AdvancedItemCatalog = Advanced Item Catalog
+CatalogStatistics = Catalog Statistics
+TotalProducts = Total Products
+ProductsWithSmartCode = Products with Smart Code
+ProductsWithSuppliers = Products with Suppliers
+ProductsBelowReorderPoint = Products Below Reorder Point
+TotalSuppliers = Total Suppliers
+QuickActions = Quick Actions
+ViewList = View List
+NewProduct = New Product
+
+# Smart Code Management
+SmartCode = Smart Code
+GenerateSmartCodes = Generate Smart Codes
+SmartCodeGenerated = Smart code generated successfully
+SmartCodesGenerated = %s smart codes generated
+ErrorGeneratingSmartCode = Error generating smart code
+NotSet = Not Set
+
+# Reorder Point Management
+ReorderPoint = Reorder Point
+CalculateReorderPoints = Calculate Reorder Points
+ReorderPointUpdated = Reorder point updated successfully
+ReorderPointsCalculated = %s reorder points calculated
+ReorderPointCalculated = Reorder point calculated successfully
+ReorderPointCalculationDetails = Reorder Point Calculation Details
+ErrorUpdatingReorderPoint = Error updating reorder point
+BelowReorderPoint = Below Reorder Point
+BelowReorder = Below Reorder
+InsufficientDataForCalculation = Insufficient data for calculation
+
+# Stock Management
+CurrentStock = Current Stock
+MinimumStock = Minimum Stock
+MaximumStock = Maximum Stock
+MinMaxStockUpdated = Min/Max stock updated successfully
+ErrorUpdatingMinMaxStock = Error updating min/max stock
+MinStockCannotBeGreaterThanMax = Minimum stock cannot be greater than maximum
+
+# Search and Filters
+SearchByPartNumber = Search by Part Number
+PartNumberRequired = Part number is required
+PartNumberNotFound = Part number not found
+ProductNotFound = Product not found
+SupplierRequired = Supplier is required
+NoSupplierConfigured = No supplier configured
+
+# Supplier Management
+DefaultSupplierSet = Default supplier set successfully
+ErrorSettingDefaultSupplier = Error setting default supplier
+SupplierItemNotFound = Supplier item not found
+
+# General
+InvalidValue = Invalid value
+InvalidAction = Invalid action
+NotEnoughPermissions = Not enough permissions
+NoRecordsFound = No records found
+
+# Status Labels
+Sale = Sale
+Buy = Buy
+OnSell = On Sale
+OnBuy = On Buy
