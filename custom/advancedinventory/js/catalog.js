@@ -5,7 +5,7 @@
 
 class AdvancedInventoryCatalog {
 	constructor() {
-		this.baseUrl = '/custom/advancedinventory/ajax/catalog_actions.php';
+		this.baseUrl = '../ajax/catalog_actions.php';
 		this.init();
 	}
 
@@ -65,62 +65,76 @@ class AdvancedInventoryCatalog {
 		const productId = element.dataset.productId;
 		const currentValue = element.dataset.currentValue || '0';
 
+		// حفظ المحتوى الأصلي للاستعادة عند الإلغاء
+		const originalContent = element.innerHTML;
+
+		// إنشاء حقل الإدخال
 		const input = document.createElement('input');
 		input.type = 'number';
 		input.min = '0';
 		input.step = '0.01';
 		input.value = currentValue;
-		input.className = 'flat';
+		input.className = 'inline-edit-input';
 		input.style.width = '80px';
 
+		// زر الحفظ
 		const saveBtn = document.createElement('button');
 		saveBtn.type = 'button';
-		saveBtn.className = 'button button-small';
-		saveBtn.textContent = '✓';
+		saveBtn.className = 'button button-small inline-edit-save';
+		saveBtn.innerHTML = '✓';
 		saveBtn.style.marginLeft = '5px';
 
+		// زر الإلغاء
 		const cancelBtn = document.createElement('button');
 		cancelBtn.type = 'button';
-		cancelBtn.className = 'button button-small';
-		cancelBtn.textContent = '✗';
+		cancelBtn.className = 'button button-small inline-edit-cancel';
+		cancelBtn.innerHTML = '✗';
 		cancelBtn.style.marginLeft = '2px';
 
+		// حاوية العناصر
 		const container = document.createElement('div');
+		container.className = 'inline-edit-container';
 		container.appendChild(input);
 		container.appendChild(saveBtn);
 		container.appendChild(cancelBtn);
 
-		const originalContent = element.innerHTML;
+		// استبدال المحتوى
 		element.innerHTML = '';
 		element.appendChild(container);
 
+		// التركيز على حقل الإدخال
 		input.focus();
 		input.select();
 
-		// Save function
+		// دالة الحفظ
 		const save = () => {
 			const newValue = parseFloat(input.value) || 0;
 			this.updateReorderPoint(productId, newValue)
 				.then(response => {
 					if (response.success) {
+						// تحديث القيمة المعروضة
 						element.innerHTML = newValue > 0 ? newValue : '-';
 						element.dataset.currentValue = newValue;
+
+						// إظهار رسالة النجاح
 						this.showMessage(response.message, 'success');
 					} else {
-						throw new Error(response.error || 'Unknown error');
+						throw new Error(response.error || 'خطأ غير معروف');
 					}
 				})
 				.catch(error => {
+					// استعادة المحتوى الأصلي عند الخطأ
 					element.innerHTML = originalContent;
 					this.showMessage(error.message, 'error');
 				});
 		};
 
-		// Cancel function
+		// دالة الإلغاء
 		const cancel = () => {
 			element.innerHTML = originalContent;
 		};
 
+		// ربط الأحداث
 		saveBtn.addEventListener('click', save);
 		cancelBtn.addEventListener('click', cancel);
 		input.addEventListener('keyup', (e) => {

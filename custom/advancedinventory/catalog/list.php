@@ -443,16 +443,23 @@ foreach ($products as $product_obj) {
 	print '</td>';
 
 	// Reorder Point
-	print '<td class="right">';
-	if ($product_obj->advinv_reorder_point > 0) {
-		print $product_obj->advinv_reorder_point;
-		if ($product_obj->total_stock <= $product_obj->advinv_reorder_point) {
-			print ' '.img_warning($langs->trans("BelowReorderPoint"));
-		}
-	} else {
-		print '<span class="opacitymedium">-</span>';
-	}
-	print '</td>';
+    print '<td class="right">';
+    if ($product_obj->advinv_reorder_point > 0) {
+        // إضافة class "edit-reorder-point" و data attributes
+        print '<span class="edit-reorder-point"
+                data-product-id="' . $product_obj->rowid . '"
+                data-current-value="' . $product_obj->advinv_reorder_point . '">';
+        print $product_obj->advinv_reorder_point;
+        if ($product_obj->total_stock <= $product_obj->advinv_reorder_point) {
+            print ' ' . img_warning($langs->trans("BelowReorderPoint"));
+        }
+        print '</span>';
+    } else {
+        print '<span class="edit-reorder-point"
+                data-product-id="' . $product_obj->rowid . '"
+                data-current-value="0">-</span>';
+    }
+    print '</td>';
 
 	// Default Supplier
 	print '<td class="tdoverflowmax150">';
