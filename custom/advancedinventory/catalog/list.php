@@ -33,6 +33,9 @@ require_once DOL_DOCUMENT_ROOT.'/product/class/product.class.php';
 require_once DOL_DOCUMENT_ROOT.'/custom/advancedinventory/class/catalogmanager.class.php';
 require_once DOL_DOCUMENT_ROOT.'/custom/advancedinventory/class/supplieritem.class.php';
 
+// أضف في بداية الملف
+$modulepart = 'advancedinventory';
+
 // Load translation files
 $langs->loadLangs(array("advancedinventory@advancedinventory", "products", "stocks", "suppliers"));
 
@@ -317,7 +320,8 @@ print '<tr class="liste_titre_filter">';
 
 // Mass action
 print '<td class="liste_titre center maxwidthsearch">';
-$searchpicto = $form->showFilterAndCheckAddButtons($massactionbutton ? 1 : 0, 'checkforselect', 1);
+// أضف name و value لزر البحث
+$searchpicto = $form->showFilterAndCheckAddButtons($massactionbutton ? 1 : 0, 'checkforselect', 1, 'list', '', '', '', 'button_search');
 print $searchpicto;
 print '</td>';
 
@@ -381,7 +385,7 @@ print '</tr>';
 // Loop on records
 $i = 0;
 foreach ($products as $product_obj) {
-	print '<tr class="oddeven">';
+	print '<tr class="' . $row_class . '">';
 
 	// Mass action checkbox
 	print '<td class="center">';
@@ -409,7 +413,7 @@ foreach ($products as $product_obj) {
 	print '</td>';
 
 	// Smart Code
-	print '<td class="nowraponall">';
+	print '<td class="nowraponall" id="smartcode_'.$product_obj->rowid.'">';
 	if ($product_obj->advinv_smart_code) {
 		print '<span class="badge badge-info">'.$product_obj->advinv_smart_code.'</span>';
 	} else {
@@ -424,9 +428,14 @@ foreach ($products as $product_obj) {
 
 	// Current Stock
 	print '<td class="right">';
-	$stock_class = '';
-	if ($product_obj->advinv_reorder_point > 0 && $product_obj->total_stock <= $product_obj->advinv_reorder_point) {
-		$stock_class = 'warning';
+// تحديد حالة المخزون
+	$row_class = 'oddeven';
+	if ($product_obj->advinv_reorder_point > 0) {
+		if ($product_obj->total_stock <= 0) {
+			$row_class .= ' reorder-critical'; // حالة الخطر الحرج
+		} elseif ($product_obj->total_stock <= $product_obj->advinv_reorder_point) {
+			$row_class .= ' reorder-warning'; // حالة التحذير
+		}
 	}
 	print '<span class="'.$stock_class.'">';
 	print ($product_obj->total_stock > 0 ? $product_obj->total_stock : '0');

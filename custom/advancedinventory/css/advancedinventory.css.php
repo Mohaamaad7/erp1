@@ -15,7 +15,7 @@ if (!defined('NOREQUIREAJAX'))   define('NOREQUIREAJAX', '1');
 
 session_cache_limiter('public');
 
-require_once '../../main.inc.php';
+require_once '../../../main.inc.php';
 
 // Define css type
 header('Content-type: text/css');
@@ -856,6 +856,79 @@ table.trextrafields_advinv_lead_time {
 	background-color: #5a6268;
 }
 
+/* 1. تحديث تنسيقات التحذير والخطر الحرج - أضف هذه التعديلات */
+tr.reorder-warning {
+	background-color: #fff3cd !important;
+	border-left: 4px solid #ffc107 !important;
+	animation: pulse-warning 2s infinite;
+}
+
+tr.reorder-critical {
+	background-color: #f8d7da !important;
+	border-left: 4px solid #dc3545 !important;
+	animation: blink-warning 1.5s infinite;
+}
+
+/* 2. إضافة حركات التنبيه الجديدة */
+@keyframes blink-warning {
+	0%, 100% { opacity: 1; }
+	50% { opacity: 0.5; }
+}
+
+/* 3. تحديث تنسيقات النص */
+tr.reorder-warning td {
+	font-weight: bold !important;
+	color: #856404 !important;
+}
+
+tr.reorder-critical td {
+	font-weight: bold !important;
+	color: #721c24 !important;
+}
+
+/* 4. تحسين حركة النبض - استبدل التعريف الحالي بهذا */
+@keyframes pulse-warning {
+	0% {
+		background-color: #fff3cd;
+		box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7);
+	}
+	50% {
+		background-color: #ffeeba;
+		box-shadow: 0 0 0 10px rgba(255, 193, 7, 0);
+	}
+	100% {
+		background-color: #fff3cd;
+		box-shadow: 0 0 0 0 rgba(255, 193, 7, 0);
+	}
+}
+
+/* 5. إضافة تأثيرات ظل للخلايا التحذيرية */
+tr.reorder-warning td,
+tr.reorder-critical td {
+	position: relative;
+	z-index: 1;
+}
+
+tr.reorder-warning td::before,
+tr.reorder-critical td::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: -1;
+	opacity: 0.3;
+}
+
+tr.reorder-warning td::before {
+	background-color: #ffc107;
+}
+
+tr.reorder-critical td::before {
+	background-color: #dc3545;
+}
+
 /* Action buttons */
 .catalog-action-buttons {
 	display: flex;
@@ -1243,3 +1316,5 @@ table.trextrafields_advinv_lead_time {
 		background: none !important;
 	}
 }
+
+

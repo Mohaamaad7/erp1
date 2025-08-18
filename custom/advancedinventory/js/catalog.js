@@ -135,32 +135,36 @@ class AdvancedInventoryCatalog {
 	generateSmartCode(element) {
 		const productId = element.dataset.productId;
 
-		if (!confirm('هل أنت متأكد من توليد كود ذكي جديد؟')) {
-			return;
-		}
-
+		// تعطيل الزر أثناء التحميل
+		const originalText = element.textContent;
 		element.disabled = true;
-		element.textContent = '...';
+		element.textContent = 'جاري التوليد...';
 
 		this.makeRequest('generate_smart_code', { product_id: productId })
 			.then(response => {
 				if (response.success) {
-					// Update the smart code display
-					const codeElement = document.querySelector(`[data-product-id="${productId}"][data-field="smart_code"]`);
-					if (codeElement) {
-						codeElement.innerHTML = `<span class="badge badge-info">${response.smart_code}</span>`;
+					// 1. تحديث خلية الكود الذكي
+					const codeCell = document.getElementById(`smartcode_${productId}`);
+					if (codeCell) {
+						codeCell.innerHTML = `<span class="badge badge-info">${response.smart_code}</span>`;
 					}
+
+					// 2. تحديث نص الزر
+					element.textContent = 'تم التوليد ✓';
+
+					// 3. إظهار رسالة نجاح
 					this.showMessage(response.message, 'success');
 				} else {
-					throw new Error(response.error || 'Unknown error');
+					throw new Error(response.error || 'خطأ غير معروف');
 				}
 			})
 			.catch(error => {
-				this.showMessage(error.message, 'error');
-			})
-			.finally(() => {
+				// إرجاع حالة الزر الأصلية
 				element.disabled = false;
-				element.textContent = 'Generate';
+				element.textContent = originalText;
+
+				// إظهار رسالة الخطأ
+				this.showMessage(error.message, 'error');
 			});
 	}
 

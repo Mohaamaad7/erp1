@@ -106,6 +106,7 @@ try {
 				$response['success'] = true;
 				$response['message'] = $langs->trans('SmartCodeGenerated');
 				$response['smart_code'] = $smart_code;
+
 			} else {
 				throw new Exception($langs->trans('ErrorGeneratingSmartCode'));
 			}
