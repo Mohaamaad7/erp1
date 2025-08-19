@@ -50,7 +50,7 @@
 //  * JPEG and PNG ICC profiles, Grayscale, RGB, CMYK, Spot Colors and Transparencies;
 //  * automatic page header and footer management;
 //  * document encryption up to 256 bit and digital signature certifications;
-//  * transactions to UNDO commands;
+//  *transactions to UNDO commands;
 //  * PDF annotations, including links, text and file attachments;
 //  * text rendering modes (fill, stroke and clipping);
 //  * multiple columns mode;

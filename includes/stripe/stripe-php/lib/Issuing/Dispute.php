@@ -6,7 +6,7 @@ namespace Stripe\Issuing;
 
 /**
  * As a <a href="https://stripe.com/docs/issuing">card issuer</a>, you can dispute
- * transactions that the cardholder does not recognize, suspects to be fraudulent,
+ *transactions that the cardholder does not recognize, suspects to be fraudulent,
  * or has other issues with.
  *
  * Related guide: <a

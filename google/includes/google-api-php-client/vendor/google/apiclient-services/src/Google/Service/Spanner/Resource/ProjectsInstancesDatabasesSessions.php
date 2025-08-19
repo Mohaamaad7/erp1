@@ -62,7 +62,7 @@ class Google_Service_Spanner_Resource_ProjectsInstancesDatabasesSessions extends
    * Commits a transaction. The request includes the mutations to be applied to
    * rows in the database. `Commit` might return an `ABORTED` error. This can
    * occur at any time; commonly, the cause is conflicts with concurrent
-   * transactions. However, it can also happen for a variety of other reasons. If
+   *transactions. However, it can also happen for a variety of other reasons. If
    * `Commit` returns `ABORTED`, the caller should re-attempt the transaction from
    * the beginning, re-using the same session. On very rare occasions, `Commit`
    * might return `UNKNOWN`. This can happen, for example, if the client job
@@ -88,7 +88,7 @@ class Google_Service_Spanner_Resource_ProjectsInstancesDatabasesSessions extends
    * read and/or modify data in a Cloud Spanner database. Sessions are meant to be
    * reused for many consecutive transactions. Sessions can only execute one
    * transaction at a time. To execute multiple concurrent read-write/write-only
-   * transactions, create multiple sessions. Note that standalone reads and
+   *transactions, create multiple sessions. Note that standalone reads and
    * queries use a transaction internally, and count toward the one transaction
    * limit. Active sessions use additional server resources, so it is a good idea
    * to delete idle and unneeded sessions. Aside from explicit deletes, Cloud

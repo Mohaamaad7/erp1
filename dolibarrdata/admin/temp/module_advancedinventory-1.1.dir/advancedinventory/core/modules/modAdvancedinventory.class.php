@@ -115,9 +115,7 @@ class modAdvancedinventory extends DolibarrModules
 			),
 			// Set this to relative path of js file if module must load a js on all pages
 			'js' => array(
-				#'/advancedinventory/js/advancedinventory.js.php',
-				'/advancedinventory/js/setup.js',
-				'/advancedinventory/js/product_smart_code.js'
+				//   '/advancedinventory/js/advancedinventory.js.php',
 			),
 			// Set here all hooks context managed by module. To find available hook context, make a "grep -r '>initHooks(' *" on source code. You can also set hook context to 'all'
 			/* BEGIN MODULEBUILDER HOOKSCONTEXTS */
@@ -599,6 +597,14 @@ class modAdvancedinventory extends DolibarrModules
 		/* END MODULEBUILDER IMPORT MYOBJECT */
 	}
 
+	/**
+	 *  Function called when module is enabled.
+	 *  The init function add constants, boxes, permissions and menus (defined in constructor) into Dolibarr database.
+	 *  It also creates data directories
+	 *
+	 *  @param      string  $options    Options when enabling module ('', 'noboxes')
+	 *  @return     int<-1,1>          	1 if OK, <=0 if KO
+	 */
 	public function init($options = '')
 	{
 		global $conf, $langs;
@@ -628,69 +634,27 @@ class modAdvancedinventory extends DolibarrModules
 			'isModEnabled("advancedinventory")'
 		);
 
-		// نوع المنتج - Position 95
-		$productTypes = $this->getProductTypesForSelect();
-		$extrafields->addExtraField(
-			'advinv_product_type',
-			"ProductType",
-			'select',
-			95,
-			'',
-			'product',
-			0, 0, '',
-			array(
-				'help' => 'ProductTypeHelp',
-				'options' => $productTypes
-			),
-			1, '', 1, 0, '', '',
-			'advancedinventory@advancedinventory',
-			'isModEnabled("advancedinventory")'
-		);
-
-		// فئة المنتج - Position 96
-		$productCategories = $this->getProductCategoriesForSelect();
-		$extrafields->addExtraField(
-			'advinv_product_category',
-			"ProductCategory",
-			'select',
-			96,
-			'',
-			'product',
-			0, 0, '',
-			array(
-				'help' => 'ProductCategoryHelp',
-				'csslist' => 'background-color: #e8f4f8;',
-				'css' => 'background-color: #e8f4f8;',
-				'options' => $productCategories
-			),
-			1, '', 1, 0, '', '',
-			'advancedinventory@advancedinventory',
-			'isModEnabled("advancedinventory")'
-		);
-
-		// الكود الذكي - Position 100 - READ ONLY
-		$extrafields->addExtraField(
+// الكود الذكي
+		$result1 = $extrafields->addExtraField(
 			'advinv_smart_code',
 			"SmartCode",
 			'varchar',
 			100,
-			50,
+			20,
 			'product',
 			0, 0, '',
 			array(
 				'help' => 'SmartCodeHelp',
-				'csslist' => 'background-color: #f0f0f0;',  // لون رمادي للقراءة فقط
-				'css' => 'background-color: #f0f0f0; cursor: not-allowed;',
-				'readonly' => 1,
-				'disabled' => 1
+				'csslist' => 'background-color: #e8f4f8;',  // لون خلفية مميز
+				'css' => 'background-color: #e8f4f8;'
 			),
 			1, '', 1, 0, '', '',
 			'advancedinventory@advancedinventory',
 			'isModEnabled("advancedinventory")'
 		);
 
-		// نقطة إعادة الطلب - Position 110
-		$extrafields->addExtraField(
+// نقطة إعادة الطلب
+		$result2 = $extrafields->addExtraField(
 			'advinv_reorder_point',
 			"ReorderPoint",
 			'double',
@@ -708,8 +672,8 @@ class modAdvancedinventory extends DolibarrModules
 			'isModEnabled("advancedinventory")'
 		);
 
-		// الحد الأدنى للمخزون - Position 120
-		$extrafields->addExtraField(
+// الحد الأدنى للمخزون
+		$result3 = $extrafields->addExtraField(
 			'advinv_min_stock',
 			"MinimumStock",
 			'double',
@@ -727,8 +691,8 @@ class modAdvancedinventory extends DolibarrModules
 			'isModEnabled("advancedinventory")'
 		);
 
-		// الحد الأقصى للمخزون - Position 130
-		$extrafields->addExtraField(
+// الحد الأقصى للمخزون
+		$result4 = $extrafields->addExtraField(
 			'advinv_max_stock',
 			"MaximumStock",
 			'double',
@@ -746,8 +710,8 @@ class modAdvancedinventory extends DolibarrModules
 			'isModEnabled("advancedinventory")'
 		);
 
-		// تتبع الدفعات - Position 140
-		$extrafields->addExtraField(
+// تتبع الدفعات
+		$result5 = $extrafields->addExtraField(
 			'advinv_batch_tracking',
 			"BatchTracking",
 			'boolean',
@@ -765,15 +729,15 @@ class modAdvancedinventory extends DolibarrModules
 			'isModEnabled("advancedinventory")'
 		);
 
-		// مدة الصلاحية - Position 150
-		$extrafields->addExtraField(
+// مدة الصلاحية بالأيام
+		$result6 = $extrafields->addExtraField(
 			'advinv_shelf_life',
 			"ShelfLifeDays",
 			'int',
 			150,
-			'',
+			10,
 			'product',
-			0, 0, '0',
+			0, 0, '',
 			array(
 				'help' => 'ShelfLifeHelp',
 				'csslist' => 'background-color: #e8f4f8;',
@@ -784,113 +748,14 @@ class modAdvancedinventory extends DolibarrModules
 			'isModEnabled("advancedinventory")'
 		);
 
-		// Add separator for Stock Movement fields
-		$extrafields->addExtraField(
-			'advinv_separator_movement',
-			"AdvancedInventoryMovementFields",
-			'separator',
-			200,
-			'',
-			'stock_mouvement',
-			0, 0, '',
-			array('csslist' => 'background: #2c3e50; color: white; font-weight: bold;'),
-			1, '', 1, 0, '', '',
-			'advancedinventory@advancedinventory',
-			'isModEnabled("advancedinventory")'
-		);
-
-		// رقم مرجع التحويل
-		$extrafields->addExtraField(
-			'advinv_transfer_ref',
-			"TransferReference",
-			'varchar',
-			210,
-			20,
-			'stock_mouvement',
-			0, 0, '',
-			array('help' => 'TransferReferenceHelp'),
-			1, '', 1, 0, '', '',
-			'advancedinventory@advancedinventory',
-			'isModEnabled("advancedinventory")'
-		);
-
-		// المخزن الوجهة
-		$extrafields->addExtraField(
-			'advinv_warehouse_to',
-			"DestinationWarehouse",
-			'int',
-			220,
-			'',
-			'stock_mouvement',
-			0, 0, '',
-			array('help' => 'DestinationWarehouseHelp'),
-			1, '', 1, 0, '', '',
-			'advancedinventory@advancedinventory',
-			'isModEnabled("advancedinventory")'
-		);
-
-		// حالة الموافقة
-		$approvalOptions = array(
-			'pending' => 'Pending',
-			'approved' => 'Approved',
-			'rejected' => 'Rejected'
-		);
-		$extrafields->addExtraField(
-			'advinv_approval_status',
-			"ApprovalStatus",
-			'select',
-			230,
-			'',
-			'stock_mouvement',
-			0, 0, 'pending',
-			array(
-				'help' => 'ApprovalStatusHelp',
-				'options' => $approvalOptions
-			),
-			1, '', 1, 0, '', '',
-			'advancedinventory@advancedinventory',
-			'isModEnabled("advancedinventory")'
-		);
-
-		// من اعتمد
-		$extrafields->addExtraField(
-			'advinv_approved_by',
-			"ApprovedBy",
-			'int',
-			240,
-			'',
-			'stock_mouvement',
-			0, 0, '',
-			array('help' => 'ApprovedByHelp'),
-			1, '', 1, 0, '', '',
-			'advancedinventory@advancedinventory',
-			'isModEnabled("advancedinventory")'
-		);
-
-		// تاريخ الاعتماد
-		$extrafields->addExtraField(
-			'advinv_approval_date',
-			"ApprovalDate",
-			'datetime',
-			250,
-			'',
-			'stock_mouvement',
-			0, 0, '',
-			array('help' => 'ApprovalDateHelp'),
-			1, '', 1, 0, '', '',
-			'advancedinventory@advancedinventory',
-			'isModEnabled("advancedinventory")'
-		);
-
-		// زمن التوريد
-		$extrafields->addExtraField(
+		$result6 = $extrafields->addExtraField(
 			'advinv_lead_time',
 			"LeadTime",
 			'int',
-			160,
-			'',
+			150,
+			10,
 			'product',
-			0, 0, '0',
+			0, 0, '',
 			array(
 				'help' => 'LeadTimeHelp',
 				'csslist' => 'background-color: #e8f4f8;',
@@ -901,56 +766,190 @@ class modAdvancedinventory extends DolibarrModules
 			'isModEnabled("advancedinventory")'
 		);
 
-		// Create objectlines if module is enabled
+// Add closing separator
+		$extrafields->addExtraField(
+			'advinv_separator_end',
+			"",  // فاصل فارغ للإغلاق
+			'separator',
+			160,
+			'',
+			'product',
+			0, 0, '',
+			array('csslist' => 'height: 2px; background: #2c3e50;'),
+			1, '', 1, 0, '', '',
+			'advancedinventory@advancedinventory',
+			'isModEnabled("advancedinventory")'
+		);
+
+// ========== STOCK MOVEMENT EXTRAFIELDS ==========
+
+// Add separator for Advanced Inventory movement fields
+		$extrafields->addExtraField(
+			'advinv_mov_separator_main',
+			"AdvancedInventoryMovementFields",
+			'separator',
+			190,
+			'',
+			'stock_mouvement',
+			0, 0, '',
+			array('csslist' => 'background: #27ae60; color: white; font-weight: bold;'),
+			1, '', 1, 0, '', '',
+			'advancedinventory@advancedinventory',
+			'isModEnabled("advancedinventory")'
+		);
+
+// رقم التحويل
+		$result7 = $extrafields->addExtraField(
+			'advinv_transfer_ref',
+			"TransferReference",
+			'varchar',
+			200,
+			128,
+			'stock_mouvement',
+			0, 0, '',
+			array(
+				'help' => 'TransferReferenceHelp',
+				'csslist' => 'background-color: #e8f8f5;',
+				'css' => 'background-color: #e8f8f5;'
+			),
+			1, '', 1, 0, '', '',
+			'advancedinventory@advancedinventory',
+			'isModEnabled("advancedinventory")'
+		);
+
+// المخزن الوجهة (للتحويلات)
+		$result8 = $extrafields->addExtraField(
+			'advinv_warehouse_to',
+			"DestinationWarehouse",
+			'sellist',
+			210,
+			'',
+			'stock_mouvement',
+			0, 0, '',
+			array(
+				'options' => array('advancedinventory_warehouse:label:rowid::status=1' => null),
+				'help' => 'DestinationWarehouseHelp',
+				'csslist' => 'background-color: #e8f8f5;',
+				'css' => 'background-color: #e8f8f5;'
+			),
+			1, '', 1, 0, '', '',
+			'advancedinventory@advancedinventory',
+			'isModEnabled("advancedinventory")'
+		);
+
+// حالة الموافقة
+		$result9 = $extrafields->addExtraField(
+			'advinv_approval_status',
+			"ApprovalStatus",
+			'select',
+			220,
+			'',
+			'stock_mouvement',
+			0, 0, '0',
+			array(
+				'options' => array(
+					'0' => 'Pending',
+					'1' => 'Approved',
+					'2' => 'Rejected'
+				),
+				'help' => 'ApprovalStatusHelp',
+				'csslist' => 'background-color: #e8f8f5;',
+				'css' => 'background-color: #e8f8f5;'
+			),
+			1, '', 1, 0, '', '',
+			'advancedinventory@advancedinventory',
+			'isModEnabled("advancedinventory")'
+		);
+
+// المستخدم الموافق
+		$result10 = $extrafields->addExtraField(
+			'advinv_approved_by',
+			"ApprovedBy",
+			'link',
+			230,
+			'',
+			'stock_mouvement',
+			0, 0, '',
+			array(
+				'options' => array('User:user/class/user.class.php' => null),
+				'help' => 'ApprovedByHelp',
+				'csslist' => 'background-color: #e8f8f5;',
+				'css' => 'background-color: #e8f8f5;'
+			),
+			1, '', 1, 0, '', '',
+			'advancedinventory@advancedinventory',
+			'isModEnabled("advancedinventory")'
+		);
+
+// تاريخ الموافقة
+		$result11 = $extrafields->addExtraField(
+			'advinv_approval_date',
+			"ApprovalDate",
+			'datetime',
+			240,
+			'',
+			'stock_mouvement',
+			0, 0, '',
+			array(
+				'help' => 'ApprovalDateHelp',
+				'csslist' => 'background-color: #e8f8f5;',
+				'css' => 'background-color: #e8f8f5;'
+			),
+			1, '', 1, 0, '', '',
+			'advancedinventory@advancedinventory',
+			'isModEnabled("advancedinventory")'
+		);
+
+// Add closing separator
+		$extrafields->addExtraField(
+			'advinv_mov_separator_end',
+			"",
+			'separator',
+			250,
+			'',
+			'stock_mouvement',
+			0, 0, '',
+			array('csslist' => 'height: 2px; background: #27ae60;'),
+			1, '', 1, 0, '', '',
+			'advancedinventory@advancedinventory',
+			'isModEnabled("advancedinventory")'
+		);
+
+
 		$sql = array();
 
-		$sql[] = "DELETE FROM ".$this->db->prefix()."document_model WHERE nom = 'standard_".strtolower($myTmpObjectKey)."' AND type = '".$this->db->escape(strtolower($myTmpObjectKey))."' AND entity = ".((int) $conf->entity);
-		$sql[] = "INSERT INTO ".$this->db->prefix()."document_model (nom, type, entity) VALUES('standard_".strtolower($myTmpObjectKey)."', '".$this->db->escape(strtolower($myTmpObjectKey))."', ".((int) $conf->entity).")";
+		// Document templates
+		$moduledir = dol_sanitizeFileName('advancedinventory');
+		$myTmpObjects = array();
+		$myTmpObjects['MyObject'] = array('includerefgeneration' => 0, 'includedocgeneration' => 0);
+
+		foreach ($myTmpObjects as $myTmpObjectKey => $myTmpObjectArray) {
+			if ($myTmpObjectArray['includerefgeneration']) {
+				$src = DOL_DOCUMENT_ROOT.'/install/doctemplates/'.$moduledir.'/template_myobjects.odt';
+				$dirodt = DOL_DATA_ROOT.($conf->entity > 1 ? '/'.$conf->entity : '').'/doctemplates/'.$moduledir;
+				$dest = $dirodt.'/template_myobjects.odt';
+
+				if (file_exists($src) && !file_exists($dest)) {
+					require_once DOL_DOCUMENT_ROOT.'/core/lib/files.lib.php';
+					dol_mkdir($dirodt);
+					$result = dol_copy($src, $dest, '0', 0);
+					if ($result < 0) {
+						$langs->load("errors");
+						$this->error = $langs->trans('ErrorFailToCopyFile', $src, $dest);
+						return 0;
+					}
+				}
+
+				$sql = array_merge($sql, array(
+					"DELETE FROM ".$this->db->prefix()."document_model WHERE nom = 'standard_".strtolower($myTmpObjectKey)."' AND type = '".$this->db->escape(strtolower($myTmpObjectKey))."' AND entity = ".((int) $conf->entity),
+					"INSERT INTO ".$this->db->prefix()."document_model (nom, type, entity) VALUES('standard_".strtolower($myTmpObjectKey)."', '".$this->db->escape(strtolower($myTmpObjectKey))."', ".((int) $conf->entity).")",
+					"DELETE FROM ".$this->db->prefix()."document_model WHERE nom = 'generic_".strtolower($myTmpObjectKey)."_odt' AND type = '".$this->db->escape(strtolower($myTmpObjectKey))."' AND entity = ".((int) $conf->entity),
+					"INSERT INTO ".$this->db->prefix()."document_model (nom, type, entity) VALUES('generic_".strtolower($myTmpObjectKey)."_odt', '".$this->db->escape(strtolower($myTmpObjectKey))."', ".((int) $conf->entity).")"
+				));
+			}
+		}
 
 		return $this->_init($sql, $options);
-	}
-
-	/**
-	 * Get product types for select field
-	 * @return array
-	 */
-	private function getProductTypesForSelect()
-	{
-		$options = array();
-
-		$sql = "SELECT rowid, type_name FROM ".$this->db->prefix()."advancedinventory_product_types";
-		$sql .= " WHERE status = 1 ORDER BY rowid";
-error_log($sql);
-		$result = $this->db->query($sql);
-		if ($result) {
-			while ($obj = $this->db->fetch_object($result)) {
-				$options[$obj->rowid] = $obj->type_name;
-			}
-		}
-
-		return $options;
-	}
-
-	/**
-	 * Get product categories for select field (hierarchical)
-	 * @return array
-	 */
-	private function getProductCategoriesForSelect()
-	{
-		$options = array();
-
-		$sql = "SELECT rowid, category_name, level FROM ".$this->db->prefix()."advancedinventory_product_categories";
-		$sql .= " WHERE status = 1 ORDER BY path, sort_order";
-
-		$result = $this->db->query($sql);
-		if ($result) {
-			while ($obj = $this->db->fetch_object($result)) {
-				$indent = str_repeat('&nbsp;&nbsp;&nbsp;', $obj->level);
-				$options[$obj->rowid] = $indent . $obj->category_name;
-			}
-		}
-
-		return $options;
 	}
 
 	/**

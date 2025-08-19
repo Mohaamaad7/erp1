@@ -40,7 +40,7 @@ class AccountService extends \Stripe\Service\AbstractService
     /**
      * Disables your access to a Financial Connections <code>Account</code>. You will
      * no longer be able to access data associated with the account (e.g. balances,
-     * transactions).
+     *transactions).
      *
      * @param string $id
      * @param null|array $params

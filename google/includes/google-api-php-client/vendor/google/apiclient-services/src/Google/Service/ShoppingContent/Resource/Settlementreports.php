@@ -56,7 +56,7 @@ class Google_Service_ShoppingContent_Resource_Settlementreports extends Google_S
    * @opt_param string transferEndDate Obtains settlements which have transactions
    * before this date (inclusively), in ISO 8601 format.
    * @opt_param string transferStartDate Obtains settlements which have
-   * transactions after this date (inclusively), in ISO 8601 format.
+   *transactions after this date (inclusively), in ISO 8601 format.
    * @return Google_Service_ShoppingContent_SettlementreportsListResponse
    */
   public function listSettlementreports($merchantId, $optParams = array())
